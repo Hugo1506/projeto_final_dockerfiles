@@ -6,3 +6,8 @@ RUN apt-get update && \
 
 #faz clone to repositório do github com a configuração do webserver
 RUN git clone https://github.com/Hugo1506/projeto_final_webserver
+
+#instala as dependencias para a frontend 
+RUN cd projeto_final_webserver/frontend && npm install -g depcheck
+
+
