@@ -1,0 +1,8 @@
+FROM ubuntu
+
+#instala os pacotes necessários
+RUN apt-get update && \
+    apt-get install -y openssh-client git vim nodejs npm
+
+#faz clone to repositório do github com a configuração do webserver
+RUN git clone https://github.com/Hugo1506/projeto_final_webserver
