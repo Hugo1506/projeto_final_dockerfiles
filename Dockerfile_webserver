@@ -2,7 +2,7 @@ FROM ubuntu
 
 #instala os pacotes necessários
 RUN apt-get update && \
-    apt-get install -y openssh-client git vim nodejs npm
+    apt-get install -y openssh-client git vim nodejs npm mysql-client mysql-server
 
 #faz clone to repositório do github com a configuração do webserver
 RUN git clone https://github.com/Hugo1506/projeto_final_webserver
@@ -10,4 +10,7 @@ RUN git clone https://github.com/Hugo1506/projeto_final_webserver
 #instala as dependencias para a frontend 
 RUN cd projeto_final_webserver/frontend && npm install -g depcheck
 
-
+#inicia o mysql e cria o utilizador hugo
+RUN service mysql start && \
+    mysql -u root -e "CREATE USER 'hugo'@'localhost' IDENTIFIED WITH mysql_native_password BY 'hugo';" && \
+    mysql -u root -e "FLUSH PRIVILEGES;"
