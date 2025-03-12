@@ -8,9 +8,11 @@ RUN apt-get update && \
 RUN git clone https://github.com/Hugo1506/projeto_final_webserver
 
 #instala as dependencias para a frontend 
-RUN cd projeto_final_webserver/frontend && npm install -g depcheck
+RUN cd projeto_final_webserver/frontend && npm install -g depcheck && npm fund
 
 #inicia o mysql e cria o utilizador hugo
 RUN service mysql start && \
     mysql -u root -e "CREATE USER 'hugo'@'localhost' IDENTIFIED WITH mysql_native_password BY 'hugo';" && \
-    mysql -u root -e "FLUSH PRIVILEGES;"
+    mysql -u root -e "FLUSH PRIVILEGES;" && \
+    mysql -u root -e "CREATE DATABASE projeto_final;" && \
+    mysql -u root projeto_final < /projeto_final_webserver/database_dump.sql
