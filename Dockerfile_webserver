@@ -15,4 +15,8 @@ RUN service mysql start && \
     mysql -u root -e "CREATE USER 'hugo'@'localhost' IDENTIFIED WITH mysql_native_password BY 'hugo';" && \
     mysql -u root -e "FLUSH PRIVILEGES;" && \
     mysql -u root -e "CREATE DATABASE projeto_final;" && \
-    mysql -u root projeto_final < /projeto_final_webserver/database_dump.sql
+    mysql -u root projeto_final < /projeto_final_webserver/database_dump.sql && \
+    mysql -u root -e "GRANT ALL PRIVILEGES ON projeto_final.* TO 'hugo'@'localhost';" && \
+    mysql -u root -e "FLUSH PRIVILEGES;"
+
+ENTRYPOINT "projeto_final_webserver/start_script.bash"
