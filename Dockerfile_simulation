@@ -14,7 +14,7 @@ RUN cd src/gaden/gaden_common/third_party/DDA/third_party && git clone https://g
 
 
 #build do gaden e do olfaction_msgs 
-#RUN ./ros_entrypoint.sh && \
-  #  cd src/ && \
-   # colcon build
-
+#RUN bash -c "./ros_entrypoint.sh && \
+ # cd src/ && \
+  #source /opt/ros/humble/setup.bash && \
+  #colcon build"
