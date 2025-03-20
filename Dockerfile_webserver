@@ -5,7 +5,10 @@ RUN apt-get update && \
     apt-get install -y openssh-client git vim nodejs npm mysql-client mysql-server
 
 #faz clone to repositório do github com a configuração do webserver
-RUN git clone https://github.com/Hugo1506/projeto_final_webserver
+ARG SHA=LATEST
+RUN SHA=${SHA} \
+    git clone https://github.com/Hugo1506/projeto_final_webserver.git
+
 
 #instala as dependencias para a frontend 
 RUN cd projeto_final_webserver/frontend && npm install -g depcheck && npm fund
