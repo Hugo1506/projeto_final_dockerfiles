@@ -7,14 +7,14 @@ RUN git clone https://github.com/MAPIRlab/olfaction_msgs src/olfaction_msgs
 RUN apt-get update && \
     apt-get install -y openssh-client libboost-all-dev libboost-iostreams-dev vim 
 
-#clone do gaden e dos seus submodulos
-RUN git clone https://github.com/MAPIRlab/gaden.git src/gaden
-RUN cd src/gaden/gaden_common/third_party/ && git clone https://github.com/PepeOjeda/DDA.git 
-RUN cd src/gaden/gaden_common/third_party/DDA/third_party && git clone https://github.com/g-truc/glm.git 
 
+#faz com que o git use https para fazer clone por default e não o ssh    
+RUN git config --global url."https://github.com/".insteadOf git@github.com:
+#clone do gaden e dos seus submodulos
+RUN git clone --recurse-submodules https://github.com/MAPIRlab/gaden.git src/gaden
 
 #build do gaden e do olfaction_msgs 
-#RUN bash -c "./ros_entrypoint.sh && \
- # cd src/ && \
-  #source /opt/ros/humble/setup.bash && \
-  #colcon build"
+RUN bash -c "./ros_entrypoint.sh && \
+  cd src/ && \
+  source /opt/ros/humble/setup.bash && \
+  colcon build"
