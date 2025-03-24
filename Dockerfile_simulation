@@ -5,8 +5,11 @@ RUN git clone https://github.com/MAPIRlab/olfaction_msgs src/olfaction_msgs
 
 #instala os pacotes necessários
 RUN apt-get update && \
-    apt-get install -y openssh-client libboost-all-dev libboost-iostreams-dev vim 
+    apt-get install -y openssh-client libboost-all-dev libboost-iostreams-dev vim ros-humble-rviz2 ros-humble-nav2-bringup xsltproc 
 
+#intala o xacro que vai ser usado pelo gaden
+RUN apt-get install -y python3-pip && \
+    pip3 install xacro
 
 #faz com que o git use https para fazer clone por default e não o ssh    
 RUN git config --global url."https://github.com/".insteadOf git@github.com:
@@ -17,4 +20,4 @@ RUN git clone --recurse-submodules https://github.com/MAPIRlab/gaden.git src/gad
 RUN bash -c "./ros_entrypoint.sh && \
   cd src/ && \
   source /opt/ros/humble/setup.bash && \
-  colcon build"
+  colcon build --symlink-install"
