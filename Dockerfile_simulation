@@ -5,7 +5,9 @@ RUN git clone https://github.com/MAPIRlab/olfaction_msgs src/olfaction_msgs
 
 #instala os pacotes necessários
 RUN apt-get update && \
-    apt-get install -y openssh-client libboost-all-dev libboost-iostreams-dev vim ros-humble-rviz2 ros-humble-nav2-bringup xsltproc 
+    apt-get install -y openssh-client libboost-all-dev libboost-iostreams-dev \
+    vim ros-humble-rviz2 ros-humble-nav2-bringup xsltproc 
+    #os-humble-pendulum-msgs ros-humble-example-interfaces
 
 #intala o xacro que vai ser usado pelo gaden
 RUN apt-get install -y python3-pip && \
@@ -13,8 +15,13 @@ RUN apt-get install -y python3-pip && \
 
 #faz com que o git use https para fazer clone por default e não o ssh    
 RUN git config --global url."https://github.com/".insteadOf git@github.com:
+
 #clone do gaden e dos seus submodulos
-RUN git clone --recurse-submodules https://github.com/MAPIRlab/gaden.git src/gaden
+ARG SHA=LATEST
+RUN SHA=${SHA} \
+    git clone --recurse-submodules https://github.com/MAPIRlab/gaden.git src/gaden
+
+#RUN git clone https://github.com/CoppeliaRobotics/simROS2.git src/sim_ros2_interface
 
 #build do gaden e do olfaction_msgs 
 RUN bash -c "./ros_entrypoint.sh && \
