@@ -6,8 +6,9 @@ RUN git clone https://github.com/MAPIRlab/olfaction_msgs src/olfaction_msgs
 #instala os pacotes necessários
 RUN apt-get update && \
     apt-get install -y openssh-client libboost-all-dev libboost-iostreams-dev \
-    vim ros-humble-rviz2 ros-humble-nav2-bringup xsltproc 
-    #os-humble-pendulum-msgs ros-humble-example-interfaces
+    vim ros-humble-rviz2 ros-humble-nav2-bringup xsltproc libxinerama-dev \ 
+    ros-humble-pendulum-msgs ros-humble-example-interfaces libxcursor-dev libxi-dev \
+    ros-humble-geographic-msgs libgeographic-dev
 
 #intala o xacro que vai ser usado pelo gaden
 RUN apt-get install -y python3-pip && \
@@ -21,10 +22,14 @@ ARG SHA=LATEST
 RUN SHA=${SHA} \
     git clone --recurse-submodules https://github.com/MAPIRlab/gaden.git src/gaden
 
-#RUN git clone https://github.com/CoppeliaRobotics/simROS2.git src/sim_ros2_interface
+COPY CoppeliaSim_Edu_V4_9_0_rev6_Ubuntu22_04.tar.xz /tmp/
+RUN tar -xvf /tmp/CoppeliaSim_Edu_V4_9_0_rev6_Ubuntu22_04.tar.xz -C /
+
+#RUN git clone https://github.com/MAPIRlab/utils
 
 #build do gaden e do olfaction_msgs 
 RUN bash -c "./ros_entrypoint.sh && \
   cd src/ && \
   source /opt/ros/humble/setup.bash && \
   colcon build --symlink-install"
+
