@@ -6,7 +6,7 @@ RUN git clone https://github.com/MAPIRlab/olfaction_msgs src/olfaction_msgs
 #instala os pacotes necessários
 RUN apt-get update && \
     apt-get install -y openssh-client libboost-all-dev libboost-iostreams-dev \
-    vim ros-humble-rviz2 ros-humble-nav2-bringup xsltproc ros-humble-xacro
+    vim ros-humble-rviz2 ros-humble-nav2-bringup xsltproc ros-humble-xacro xterm 
 
 #faz com que o git use https para fazer clone por default e não o ssh    
 RUN git config --global url."https://github.com/".insteadOf git@github.com:
