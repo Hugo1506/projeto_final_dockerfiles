@@ -6,13 +6,7 @@ RUN git clone https://github.com/MAPIRlab/olfaction_msgs src/olfaction_msgs
 #instala os pacotes necessários
 RUN apt-get update && \
     apt-get install -y openssh-client libboost-all-dev libboost-iostreams-dev \
-    vim ros-humble-rviz2 ros-humble-nav2-bringup xsltproc libxinerama-dev \ 
-    ros-humble-pendulum-msgs ros-humble-example-interfaces libxcursor-dev libxi-dev \
-    ros-humble-geographic-msgs libgeographic-dev
-
-#intala o xacro que vai ser usado pelo gaden
-RUN apt-get install -y python3-pip && \
-    pip3 install xacro
+    vim ros-humble-rviz2 ros-humble-nav2-bringup xsltproc ros-humble-xacro
 
 #faz com que o git use https para fazer clone por default e não o ssh    
 RUN git config --global url."https://github.com/".insteadOf git@github.com:
@@ -22,14 +16,15 @@ ARG SHA=LATEST
 RUN SHA=${SHA} \
     git clone --recurse-submodules https://github.com/MAPIRlab/gaden.git src/gaden
 
-COPY CoppeliaSim_Edu_V4_9_0_rev6_Ubuntu22_04.tar.xz /tmp/
-RUN tar -xvf /tmp/CoppeliaSim_Edu_V4_9_0_rev6_Ubuntu22_04.tar.xz -C /
-
-#RUN git clone https://github.com/MAPIRlab/utils
+#clone do BasicSim e dos seus submodulos
+ARG SHA=LATEST
+RUN SHA=${SHA} \
+    git clone --recurse-submodules https://github.com/PepeOjeda/BasicSim.git src/BasicSim
 
 #build do gaden e do olfaction_msgs 
 RUN bash -c "./ros_entrypoint.sh && \
   cd src/ && \
   source /opt/ros/humble/setup.bash && \
+  ros2 pkg create --build-type ament_cmake coppelia_ros2_pkg && \
   colcon build --symlink-install"
 
