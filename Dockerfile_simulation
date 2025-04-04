@@ -11,7 +11,7 @@ RUN apt-get update && \
 #faz com que o git use https para fazer clone por default e não o ssh    
 RUN git config --global url."https://github.com/".insteadOf git@github.com:
 
-RUN git clone https://github.com/Hugo1506/projeto_final_simulation_scritps.git
+RUN git clone https://github.com/Hugo1506/projeto_final_simulation_scripts.git
 
 #clone do gaden e dos seus submodulos
 ARG SHA=LATEST
