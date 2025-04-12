@@ -7,7 +7,7 @@ RUN git clone https://github.com/MAPIRlab/olfaction_msgs src/olfaction_msgs
 RUN apt-get update && \
     apt-get install -y openssh-client libboost-all-dev libboost-iostreams-dev \
     vim ros-humble-rviz2 ros-humble-nav2-bringup xsltproc ros-humble-xacro xterm pip 
-RUN pip install requests inotify 
+RUN pip install requests inotify cython
 
 #faz com que o git use https para fazer clone por default e não o ssh    
 RUN git config --global url."https://github.com/".insteadOf git@github.com:
@@ -15,9 +15,12 @@ RUN git config --global url."https://github.com/".insteadOf git@github.com:
 RUN git clone https://github.com/Hugo1506/projeto_final_simulation_scripts.git
 
 #clone do gaden e dos seus submodulos
-ARG SHA=LATEST
-RUN SHA=${SHA} \
-    git clone --recurse-submodules https://github.com/MAPIRlab/gaden.git src/gaden
+RUN SHA=8f2ba3d \
+    git clone --recurse-submodules https://github.com/MAPIRlab/gaden.git src/gaden && \
+    cd src/gaden && \
+    git checkout $SHA
+
+
 
 #clone do BasicSim e dos seus submodulos
 ARG SHA=LATEST
