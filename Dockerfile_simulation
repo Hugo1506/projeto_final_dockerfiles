@@ -5,9 +5,12 @@ RUN git clone https://github.com/MAPIRlab/olfaction_msgs src/olfaction_msgs
 
 #instala os pacotes necessários
 RUN apt-get update && \
-    apt-get install -y openssh-client libboost-all-dev libboost-iostreams-dev \
+    apt-get install -y openssh-client libboost-all-dev libboost-iostreams-dev \ 
     vim ros-humble-rviz2 ros-humble-nav2-bringup xsltproc ros-humble-xacro xterm pip 
-RUN pip install requests inotify cython
+RUN pip install requests inotify cython Pillow imageio IPython
+
+# instala o gaden tools
+RUN pip install git+https://github.com/MAPIRlab/GadenTools
 
 #faz com que o git use https para fazer clone por default e não o ssh    
 RUN git config --global url."https://github.com/".insteadOf git@github.com:
@@ -19,8 +22,6 @@ RUN SHA=8f2ba3d \
     git clone --recurse-submodules https://github.com/MAPIRlab/gaden.git src/gaden && \
     cd src/gaden && \
     git checkout $SHA
-
-
 
 #clone do BasicSim e dos seus submodulos
 ARG SHA=LATEST
